@@ -29,6 +29,7 @@ export default function Home() {
   const fallbackInterval = useRef<NodeJS.Timeout | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const charIndex = useRef(0);
+  const fakeMouseRef = useRef<HTMLDivElement | null>(null);
 
   const textToSimulate = "PseudoSAP activity simulation... All systems nominal... ";
 
@@ -50,6 +51,13 @@ export default function Home() {
       if (textareaRef.current.value.length > 1000) {
         textareaRef.current.value = textareaRef.current.value.slice(-500);
       }
+    }
+
+    // 3. Simulate mouse movement
+    if (fakeMouseRef.current) {
+      const x = Math.random() * window.innerWidth * 0.8;
+      const y = Math.random() * window.innerHeight * 0.8;
+      fakeMouseRef.current.style.transform = `translate(${x}px, ${y}px)`;
     }
   };
 
@@ -174,6 +182,10 @@ export default function Home() {
           </CardContent>
         </Card>
       </main>
+      <div
+        ref={fakeMouseRef}
+        className="pointer-events-none fixed left-0 top-0 h-1 w-1 opacity-0 transition-transform duration-500"
+      />
       {/* Extra vertical space to ensure the page is scrollable for the fallback mechanism */}
       <div className="h-[150vh]" />
     </>
